@@ -65,4 +65,50 @@ SELECT
     nama_pelanggan,
     total_layanan_servis
 FROM pelanggan;
-  
+
+SELECT 
+    s.no_servis,
+    s.tanggal_servis,
+    p.id_pelanggan,
+    p.nama_pelanggan,
+    k.plat_nomor,
+    k.merek,
+    k.tipe_motor,
+    b.nama_bengkel,
+    s.status_servis
+FROM servis s
+JOIN kendaraan k ON s.plat_nomor = k.plat_nomor
+JOIN pelanggan p ON k.id_pelanggan = p.id_pelanggan
+JOIN bengkel b ON s.id_bengkel = b.id_bengkel;
+SELECT 
+    id_pelanggan,
+    nama_pelanggan,
+    total_layanan_servis
+FROM pelanggan;
+-- COMMIT (Simpan)
+START TRANSACTION;
+
+INSERT INTO servis (no_servis, tanggal_servis, jam_servis, asal_pendaftaran, status_servis, keluhan, plat_nomor, id_bengkel)
+VALUES ('SRV-2026-050', '2026-10-10', '09:00:00', 'Aplikasi MotoMind', 'Proses', 'Rem berdecit', 'AE-1001-AA', 'BKL-001');
+
+INSERT INTO detail_servis (no_servis, id_jenis_servis, catatan)
+VALUES ('SRV-2026-050', 'SRV-TYP-02', 'Servis ringan');
+
+UPDATE pelanggan 
+SET total_layanan_servis = total_layanan_servis + 1
+WHERE id_pelanggan = 'PLG-003';
+
+COMMIT;
+-- ROLLBACK
+START TRANSACTION;
+INSERT INTO servis (no_servis, tanggal_servis, jam_servis, asal_pendaftaran,
+                    status_servis, keluhan, plat_nomor, id_bengkel)
+VALUES ('SRV-2026-004', '2026-10-11', '10:00:00', 'Aplikasi MotoMind',
+ …
+mysqldump -u root -p --databases db_motomind > backup_modul10.sql
+ 
+-- simulasi kehilangan data (opsional)
+DROP DATABASE db_motomind;
+ 
+-- restore
+mysql -u root -p < backup_modul10.sql
