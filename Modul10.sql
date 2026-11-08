@@ -65,3 +65,4 @@ SELECT
     nama_pelanggan,
     total_layanan_servis
 FROM pelanggan;
+  
