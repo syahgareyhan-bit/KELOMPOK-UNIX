@@ -41,3 +41,27 @@ EXPLAIN
 SELECT no_servis, tanggal_servis, status_servis, plat_nomor
 FROM servis
 WHERE tanggal_servis >= '2026-10-01' AND tanggal_servis < '2026-11-01';
+
+CREATE INDEX idx_servis_tanggal ON servis(tanggal_servis);
+SHOW INDEX FROM servis;
+
+SELECT 
+    s.no_servis,
+    s.tanggal_servis,
+    p.id_pelanggan,
+    p.nama_pelanggan,
+    k.plat_nomor,
+    k.merek,
+    k.tipe_motor,
+    b.nama_bengkel,
+    s.status_servis
+FROM servis s
+JOIN kendaraan k ON s.plat_nomor = k.plat_nomor
+JOIN pelanggan p ON k.id_pelanggan = p.id_pelanggan
+JOIN bengkel b ON s.id_bengkel = b.id_bengkel;
+
+SELECT 
+    id_pelanggan,
+    nama_pelanggan,
+    total_layanan_servis
+FROM pelanggan;
