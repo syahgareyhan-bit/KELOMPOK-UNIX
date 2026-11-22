@@ -1,1 +1,12 @@
+FOR s IN servis
+    FILTER s.plat_nomor == "[PLAT_NOMOR]"
+    AND s.tanggal_servis >= "[YYYY-MM-DD]"
 
+    SORT s.tanggal_servis DESC
+
+    RETURN {
+        no_servis: s.no_servis,
+        tanggal_servis: s.tanggal_servis,
+        keluhan: s.keluhan,
+        detail_servis: s.detail_servis
+    }
