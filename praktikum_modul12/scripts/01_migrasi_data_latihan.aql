@@ -1,0 +1,16 @@
+-- Collection Routes
+INSERT [
+    { _key: "12", route_id: 12, route_name: "Koridor Pusat-Terminal" },
+    { _key: "15", route_id: 15, route_name: "Koridor Kampus-Stasiun" },
+    { _key: "18", route_id: 18, route_name: "Koridor Pasar-Kota" }
+] INTO routes
+
+-- Collection Trips
+INSERT [
+    { _key: "T001", trip_id: "T001", route_id: 12, started_at: "2026-11-02T07:10:00", status: "completed" },
+    { _key: "T002", trip_id: "T002", route_id: 15, started_at: "2026-11-02T07:25:00", status: "completed" },
+    { _key: "T003", trip_id: "T003", route_id: 12, started_at: "2026-11-03T08:05:00", status: "delayed" },
+    { _key: "T004", trip_id: "T004", route_id: 18, started_at: "2026-10-29T06:50:00", status: "completed" },
+    { _key: "T005", trip_id: "T005", route_id: 12, started_at: "2026-11-05T17:20:00", status: "completed" },
+    { _key: "T006", trip_id: "T006", route_id: 15, started_at: "2026-11-06T09:15:00", status: "cancelled" }
+] INTO trips
