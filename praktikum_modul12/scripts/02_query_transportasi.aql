@@ -1,1 +1,76 @@
+FOR x IN tidak_ada
+    RETURN x
+-FOR x IN tidak_ada RETURN x: membaca collection yang tidak ada, jadi ditolak dengan error.
 
+  FOR route IN routes
+    FILTER route.route_id == trip.route_id
+
+    RETURN {
+      trip_id: trip.trip_id,
+      started_at: trip.started_at,
+      route_name: route.route_name
+    }
+-FOR route IN routes FILTER route.route_id == trip.route_id RETURN {...}: mencocokkan setiap perjalanan dengan rutenya, lalu 
+menampilkan trip_id, started_at, dan route_name. Query ini akan error karena variabel trip belum didefinisikan, jadi perlu 
+FOR trip IN trips di atasnya
+
+FOR t IN trips
+  FILTER t.route_id == 12
+    AND t.started_at >= "2026-11-01"
+
+  FOR r IN routes
+    FILTER r.route_id == t.route_id
+-FOR t IN trips FILTER ... FOR r IN routes FILTER r.route_id == t.route_id: mengambil perjalanan rute 12 sejak 1 November 2026, 
+lalu mencocokkan tiap perjalanan dengan rutenya (ini yang menjadi join).
+
+    RETURN {
+      trip_id: t.trip_id,
+      started_at: t.started_at,
+      route_name: r.route_name
+    }
+RETURN { trip_id, started_at, route_name }: menampilkan hanya tiga atribut itu sebagai hasil akhir, yaitu trip_id dan started_at
+dari t (trips) serta route_name dari r (routes). Inilah proyeksi (π) dalam aljabar relasional.
+
+FOR t IN trips
+  FOR r IN routes
+    FILTER r.route_id == t.route_id
+    FILTER t.route_id == 12
+      AND t.started_at >= "2026-11-01T00:00:00"
+- OR t IN trips FOR r IN routes FILTER ... FILTER ...: menggabungkan setiap perjalanan dengan rutenya lebih dulu (join), 
+baru menyaring 
+rute 12 sejak 1 November 2026. Ini Rencana 1 (join
+    RETURN {
+      trip_id: t.trip_id,
+      started_at: t.started_at,
+      route_name: r.route_name
+    }
+
+-RETURN { trip_id, started_at, route_name }: menampilkan hanya tiga atribut itu sebagai hasil akhir, yaitu trip_id dan started_at
+dari t (trips) serta route_name dari r (routes). Ini proyeksi (π) dan sama dengan potongan sebelumnya.
+
+FOR t IN trips
+  FILTER t.route_id == 12
+    AND t.started_at >= "2026-11-01"
+
+-FOR t IN trips FILTER t.route_id == 12 AND t.started_at >= "2026-11-01": membaca semua perjalanan di trips, lalu hanya menyisakan 
+yang rute 12 dan dimulai sejak 1 November 2026. Ini seleksi (σ) dalam aljabar relasional.
+
+  FOR r IN routes
+    FILTER r.route_id == t.route_id
+
+    RETURN {
+      trip_id: t.trip_id,
+      started_at: t.started_at,
+      route_name: r.route_name
+    }
+
+-FOR r IN routes FILTER r.route_id == t.route_id RETURN {...}: mencocokkan tiap perjalanan dengan rutenya, lalu menampilkan trip_id, 
+started_at, dan route_name. Ini bagian join (⋈) ditambah proyeksi (π).
+
+FOR t IN trips
+  FILTER t.route_id == 12
+    AND t.started_at >= "2026-11-01"
+  RETURN t
+
+-FOR t IN trips FILTER t.route_id == 12 AND t.started_at >= "2026-11-01" RETURN t: menampilkan semua data perjalanan rute 12 yang dimulai 
+sejak 1 November 2026, lengkap dengan semua atributnya (bukan hanya tiga kolom). Hasilnya T001, T003, dan T005.
